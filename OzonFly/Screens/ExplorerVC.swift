@@ -6,7 +6,7 @@ class ExplorerVC: DataLoadingVC {
     private var dataSource: UICollectionViewDiffableDataSource<Section, Flights>!
     
     private lazy var collectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UIHelper.createMainLayout(in: view))
-    private var itemsArray: [Flights] = []
+    private var flightsArray: [Flights] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,10 +25,10 @@ class ExplorerVC: DataLoadingVC {
             guard let self = self else { return }
             dismissLoadingView()
             switch result {
-            case .success(let itemsResult):
+            case .success(let flightResult):
                 
-                self.itemsArray = itemsResult.flights
-                self.updateDataSource(on: itemsResult.flights)
+                self.flightsArray = flightResult.flights
+                self.updateDataSource(on: flightResult.flights)
             case .failure(let error):
                 self.presentCustomAllertOnMainThred(allertTitle: String(localized: "Bad Stuff Happend"), message: error.rawValue, butonTitle: String(localized: "Ok"))
             }
@@ -76,7 +76,7 @@ class ExplorerVC: DataLoadingVC {
 extension ExplorerVC: UICollectionViewDelegate{
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let item = itemsArray[indexPath.row]
+        let item = flightsArray[indexPath.row]
         let itemDetailsVC =  DetailsVC(flightModel: item)
         itemDetailsVC.reloadDelegate = self
         self.present(itemDetailsVC, animated: true, completion: nil)
