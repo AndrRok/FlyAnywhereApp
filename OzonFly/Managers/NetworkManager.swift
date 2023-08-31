@@ -42,12 +42,11 @@ class NetworkManager {
             do {
                 let decoder = JSONDecoder()
                 decoder.keyDecodingStrategy  = .convertFromSnakeCase
-                let itemResult            = try decoder.decode(FlightModel.self, from: data)
-                completed(.success(itemResult))
+                let flightResult            = try decoder.decode(FlightModel.self, from: data)
+                completed(.success(flightResult))
             } catch {
                 completed(.failure(.invalidData))
             }
-            print(String(data: data, encoding: .utf8)!)
         }
         
         task.resume()
